@@ -1,66 +1,39 @@
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        CharStream input = null;
-
-        // 1. EVALUAR LA ENTRADA
-        if (args.length > 0) {
-            // Caso A: Si el usuario pasó un argumento (ej: java Main programa.txt)
-            String rutaArchivo = args[0];
-            try {
-                System.out.println("Reading file: " + rutaArchivo);
-                input = CharStreams.fromFileName(rutaArchivo);
-            } catch (IOException e) {
-                System.err.println("Error reading file: " + e.getMessage());
-                return;
-            }
-        } else {
-            // Caso B: Si no pasó argumentos, se queda esperando el teclado
-            System.out.println("=== Interactive Mode ===");
-            System.out.println("Write your code below. Press Ctrl+D (Linux) or Ctrl+Z (Windows) when finished to compile:");
-
-            try {
-                Scanner scanner = new Scanner(System.in);
-                StringBuilder buffer = new StringBuilder();
-
-                // Lee línea por línea hasta que el usuario mande el fin de archivo (EOF)
-                while (scanner.hasNextLine()) {
-                    buffer.append(scanner.nextLine()).append("\n");
-                }
-                scanner.close();
-
-                // Convertimos todo lo que se escribió por teclado en el stream para ANTLR
-                input = CharStreams.fromString(buffer.toString());
-            } catch (Exception e) {
-                System.err.println("Error reading from keyboard: " + e.getMessage());
-                return;
-            }
+        // Validamos estrictamente que nos pasen el archivo de prueba
+        if (args.length == 0) {
+            System.err.println("Error: No test file provided.");
+            System.err.println("Usage: java Main <path-to-test-file>");
+            System.exit(1);
         }
 
-        // 2. DISPARAR EL COMPILADOR (Instanciación de clases de ANTLR)
-        System.out.println("\n=== Starting Compilation ===");
+        String rutaArchivo = args[0];
+
         try {
-            // Instanciamos el Lexer con la entrada seleccionada (archivo o teclado)
+            // 1. Leer el archivo de testeo directo a un CharStream
+            CharStream input = CharStreams.fromFileName(rutaArchivo);
+
+            // 2. Canalizar el flujo a las clases mínimas de ANTLR
             GramaticaLexer lexer = new GramaticaLexer(input);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-            // Instanciamos el Parser
             GramaticaParser parser = new GramaticaParser(tokens);
 
-            // Reemplazá 'prog' por el nombre de tu regla inicial/principal del .g4
-            ParseTree tree = parser.programa();
+            // 3. Disparar la regla inicial (Punto de entrada de tu gramática)
+            ParseTree tree = parser.program();
 
-            // Mostramos el árbol en la consola para verificar que todo se entendió bien
-            System.out.println("\nParse Tree (LISP format):");
+            // 4. Imprimir el árbol LISP limpio para corroborar la estructura
             System.out.println(tree.toStringTree(parser));
-            System.out.println("\n=== Compilation Finished Successfully ===");
 
+        } catch (IOException e) {
+            System.err.println("File system error: Could not read " + rutaArchivo);
+            System.exit(1);
         } catch (Exception e) {
-            System.err.println("Compilation error: " + e.getMessage());
+            System.err.println("Syntax/Parsing error: " + e.getMessage());
+            System.exit(1);
         }
     }
 }
