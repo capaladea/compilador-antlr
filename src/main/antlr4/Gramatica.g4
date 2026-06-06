@@ -15,7 +15,7 @@ println: PRINTLN NUMBER SEMICOLON;
 
 // TOKENS PARA LAS PALABRAS RESERVADAS
 PROGRAM: 'program';
-VAR: 'var'
+VAR: 'var';
 PRINTLN: 'println'
 
 PLUS: '+';
