@@ -1,7 +1,15 @@
 // Gramatica
 grammar Gramatica;
 
-// GRAMATICA LIBRE DE CONTExTO
+@parser::header {
+    import java.util.Map;
+    import java.util.HashMap;
+}
+@parser::members {
+    Map<String, Object> symbolTable = new HashMap<String, Object>();
+}
+
+// GRAMATICA LIBRE DE CONTEXTO
 program: PROGRAM ID BRACKET_OPEN
         sentence*
         BRACKET_CLOSE;
@@ -9,10 +17,15 @@ program: PROGRAM ID BRACKET_OPEN
 sentence: var_decl | var_assign | println;
 
 var_decl: VAR ID SEMICOLON
-        {System.out.println("Declando variable");};
-var_assign: ID ASSIGN expression SEMICOLON;
-println: PRINTLN expression SEMICOLON;
-expression: NUMBER | ID;
+        {symbolTable.put($ID.text, 0);};
+var_assign: ID ASSIGN expression SEMICOLON
+        {symbolTable.put($ID.text, $expression.value);};
+println: PRINTLN expression SEMICOLON
+        {System.out.println($expression.value);};
+expression returns [Object value]:
+        NUMBER {$value = Integer.parseInt($NUMBER.text);}
+        |
+        ID {$value = symbolTable.get($ID.text);};
 
 // TOKENS PARA LAS PALABRAS RESERVADAS
 PROGRAM: 'program';
