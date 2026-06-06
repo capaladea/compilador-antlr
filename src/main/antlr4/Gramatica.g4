@@ -2,7 +2,7 @@
 grammar Gramatica;
 
 // REGLAS SINTÁCTICAS (Empiezan con minúscula)
-programa  : instruccion+ EOF ;
+programa  : instruccion + EOF ;
 
 instruccion : asignacion ';' ;
 
