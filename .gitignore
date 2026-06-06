@@ -78,6 +78,8 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+gen/
+*.class
 
 # Opcional: Descomentá la siguiente línea si NO querés subir el Maven Wrapper al repositorio
 #.mvn/wrapper/

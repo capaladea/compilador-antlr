@@ -1,17 +1,18 @@
 // Gramatica
 grammar Gramatica;
 
-// GRAMATICA LIBRE DE CONTECTO
+// GRAMATICA LIBRE DE CONTExTO
 program: PROGRAM ID BRACKET_OPEN
         sentence*
         BRACKET_CLOSE;
 
 sentence: var_decl | var_assign | println;
 
-var_decl: VAR ID SEMICOLON;
-var_assign: ID ASSIGN NUMBER SEMICOLON;
-println: PRINTLN NUMBER SEMICOLON;
-
+var_decl: VAR ID SEMICOLON
+        {System.out.println("Declando variable");};
+var_assign: ID ASSIGN expression SEMICOLON;
+println: PRINTLN expression SEMICOLON;
+expression: NUMBER | ID;
 
 // TOKENS PARA LAS PALABRAS RESERVADAS
 PROGRAM: 'program';
