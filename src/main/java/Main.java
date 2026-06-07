@@ -1,39 +1,36 @@
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
-import java.io.IOException;
+import  java.io.IOException;
+
+import ast.*; // Importamos tus nodos también acá
 
 public class Main {
-    public static void main(String[] args) {
-        // Validamos estrictamente que nos pasen el archivo de prueba
-        if (args.length == 0) {
-            System.err.println("Error: No test file provided.");
-            System.err.println("Usage: java Main <path-to-test-file>");
-            System.exit(1);
-        }
+    public static void main(String[] args) throws Exception {
+        // Tu código de prueba respetando la gramática que diseñaste
+        String input = "program miPrimerPrograma {\n" +
+                "    println 5 + 3 * 2;\n" +
+                "    if (true) {\n" +
+                "        println 10;\n" +
+                "    } else {\n" +
+                "        println 0;\n" +
+                "    }\n" +
+                "}";
 
-        String rutaArchivo = args[0];
+        // 1. Leer el código fuente e iniciar el Lexer
+        GramaticaLexer lexer = new GramaticaLexer(CharStreams.fromString(input));
 
-        try {
-            // 1. Leer el archivo de testeo directo a un CharStream
-            CharStream input = CharStreams.fromFileName(rutaArchivo);
+        // 2. Generar el flujo de tokens
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-            // 2. Canalizar el flujo a las clases mínimas de ANTLR
-            GramaticaLexer lexer = new GramaticaLexer(input);
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            GramaticaParser parser = new GramaticaParser(tokens);
+        // 3. Pasarle los tokens al Parser
+        GramaticaParser parser = new GramaticaParser(tokens);
 
-            // 3. Disparar la regla inicial (Punto de entrada de tu gramática)
-            ParseTree tree = parser.program();
+        System.out.println("--- Ejecutando el Compilador ---");
 
-            // 4. Imprimir el árbol LISP limpio para corroborar la estructura
-            System.out.println(tree.toStringTree(parser));
+        // 4. Llamar a la regla raíz 'program'.
+        // Esto va a parsear, armar el AST y ejecutar el 'n.execute()' de cada nodo.
+        parser.program();
 
-        } catch (IOException e) {
-            System.err.println("File system error: Could not read " + rutaArchivo);
-            System.exit(1);
-        } catch (Exception e) {
-            System.err.println("Syntax/Parsing error: " + e.getMessage());
-            System.exit(1);
-        }
+        System.out.println("--------------------------------");
     }
 }
