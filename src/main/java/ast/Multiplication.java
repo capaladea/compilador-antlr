@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.Map;
+
 public class Multiplication implements ASTNode{
 
     private ASTNode operand1;
@@ -11,7 +13,7 @@ public class Multiplication implements ASTNode{
     }
 
     @Override
-    public Object execute() {
-        return (int) operand1.execute() * (int)operand2.execute();
+    public Object execute(Map<String, Object> symbolTable) {
+        return (int) operand1.execute(symbolTable) * (int)operand2.execute(symbolTable);
     }
 }

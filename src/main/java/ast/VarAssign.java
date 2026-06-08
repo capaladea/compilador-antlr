@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.Map;
+
 public class VarAssign implements ASTNode{
 
     private String name;
@@ -11,7 +13,8 @@ public class VarAssign implements ASTNode{
     }
 
     @Override
-    public Object execute() {
+    public Object execute(Map<String, Object> symbolTable) {
+        symbolTable.put(name, expression.execute(symbolTable));
         return null;
     }
 }
