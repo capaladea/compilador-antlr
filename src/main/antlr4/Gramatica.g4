@@ -47,7 +47,8 @@ conditional returns [ASTNode node]
 
 expression returns [ASTNode node]:
         f1=factor { $node = $f1.node; }
-                (PLUS f2=factor { $node = new Addition($node, $f2.node); } )*;
+                (PLUS f2=factor { $node = new Addition($node, $f2.node); } 
+                | MINUS f2=factor { $node = new Subtraction($node, $f2.node); } )*;
 
 factor returns [ASTNode node]:
         t1=term { $node = $t1.node;}
