@@ -27,7 +27,11 @@ program
            }
         };
 
-sentence returns [ASTNode node]: println { $node = $println.node; } | conditional { $node = $conditional.node; };
+sentence returns [ASTNode node]: println { $node = $println.node; }
+            | conditional { $node = $conditional.node; }
+            | var_decl
+            | var_assign
+            ;
 
 println returns [ASTNode node]: PRINTLN expression SEMICOLON
         {$node = new Println($expression.node); };
@@ -45,10 +49,21 @@ conditional returns [ASTNode node]
                 $node = new If($expression.node, body, elseBody);
             };
 
+var_decl returns [ASTNode node]:
+    VAR ID SEMICOLON
+;
+
+var_assign returns [ASTNode node]:
+    ID ASSIGN expression SEMICOLON
+
+;
+
+
 expression returns [ASTNode node]:
         f1=factor { $node = $f1.node; }
                 (PLUS f2=factor { $node = new Addition($node, $f2.node); } 
-                | MINUS f2=factor { $node = new Subtraction($node, $f2.node); } )*;
+                //| MINUS f2=factor { $node = new Subtraction($node, $f2.node); }
+                )*;
 
 factor returns [ASTNode node]:
         t1=term { $node = $t1.node;}
@@ -57,6 +72,7 @@ factor returns [ASTNode node]:
 term returns [ASTNode node]:
         NUMBER { $node = new Constant(Integer.parseInt($NUMBER.text)); }
         | BOOLEAN { $node = new Constant(Boolean.parseBoolean($BOOLEAN.text)); }
+        | ID {}
         | PAR_OPEN expression { $node = $expression.node; } PAR_CLOSE;
 
 // TOKENS PARA LAS PALABRAS RESERVADAS
