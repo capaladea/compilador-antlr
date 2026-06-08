@@ -67,6 +67,10 @@ PRINTLN: 'println';
 IF: 'if';
 ELSE: 'else';
 
+// Do-While solicitado por la catedra
+DO: 'do';
+WHILE: 'while';
+
 PLUS: '+';
 MINUS: '-';
 MULT: '*';
