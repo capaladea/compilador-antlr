@@ -17,21 +17,21 @@ grammar Gramatica;
 program
         @init{
             List<ASTNode> body = new ArrayList<ASTNode>();
+
         }
         : PROGRAM ID BRACKET_OPEN
         (sentence { body.add($sentence.node); })*
         BRACKET_CLOSE
         {
             for(ASTNode n : body){
-                n.execute();
+                n.execute(symbolTable);
            }
         };
 
 sentence returns [ASTNode node]: println { $node = $println.node; }
             | conditional { $node = $conditional.node; }
-            | var_decl
-            | var_assign
-            ;
+            | var_decl { $node = $var_decl.node; }
+            | var_assign { $node = $var_assign.node; };
 
 println returns [ASTNode node]: PRINTLN expression SEMICOLON
         {$node = new Println($expression.node); };
@@ -50,13 +50,10 @@ conditional returns [ASTNode node]
             };
 
 var_decl returns [ASTNode node]:
-    VAR ID SEMICOLON
-;
+    VAR ID SEMICOLON { $node = new VarDecl($ID.text); };
 
 var_assign returns [ASTNode node]:
-    ID ASSIGN expression SEMICOLON
-
-;
+    ID ASSIGN expression SEMICOLON { $node = new VarAssign($ID.text, $expression.node); };
 
 
 expression returns [ASTNode node]:
@@ -72,7 +69,7 @@ factor returns [ASTNode node]:
 term returns [ASTNode node]:
         NUMBER { $node = new Constant(Integer.parseInt($NUMBER.text)); }
         | BOOLEAN { $node = new Constant(Boolean.parseBoolean($BOOLEAN.text)); }
-        | ID {}
+        | ID { $node = new VarRef($ID.text); }
         | PAR_OPEN expression { $node = $expression.node; } PAR_CLOSE;
 
 // TOKENS PARA LAS PALABRAS RESERVADAS

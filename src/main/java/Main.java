@@ -8,8 +8,10 @@ public class Main {
     public static void main(String[] args) throws Exception {
         // Tu código de prueba respetando la gramática que diseñaste
         String input = "program miPrimerPrograma {\n" +
-                "    println 5 + 3 * 2;\n" +
-                "    if (true) {\n" +
+                "    var x;\n" +
+                "    x = 100;\n" +
+                "    println x;\n" +
+                "    if (false) {\n" +
                 "        println 10;\n" +
                 "    } else {\n" +
                 "        println 0;\n" +
