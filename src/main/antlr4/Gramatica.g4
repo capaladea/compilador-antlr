@@ -67,7 +67,8 @@ factor returns [ASTNode node]:
                 ( MULT t2=term { $node = new Multiplication($node, $t2.node); } )*;
 
 term returns [ASTNode node]:
-        NUMBER { $node = new Constant(Integer.parseInt($NUMBER.text)); }
+        INT { $node = new Constant(Integer.parseInt($INT.text)); }
+        | FLOAT { $node = new Constant(Float.parseFloat($FLOAT.text)); }
         | BOOLEAN { $node = new Constant(Boolean.parseBoolean($BOOLEAN.text)); }
         | ID { $node = new VarRef($ID.text); }
         | PAR_OPEN expression { $node = $expression.node; } PAR_CLOSE;
@@ -116,6 +117,10 @@ BOOLEAN: 'true' | 'false';
 
 ID      : [a-zA-Z][a-zA-Z0-9_]*; // El primer bloque obliga a que empiece con letra, * porque después de esa letra puede no venir nada más
 
-NUMBER  : [0-9]+; // necesita la menos un numero
+INT  : [0-9]+; // necesita la menos un numero
+
+// Tipo float, acepta 3.14, .5 y 42.
+FLOAT   : [0-9]+ '.' [0-9]*
+        | '.' [0-9]+;
 
 WS      : [ \t\r\n]+ -> skip ; // Ignora espacios y saltos de línea

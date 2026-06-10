@@ -9,12 +9,13 @@ public class Main {
         // Tu código de prueba respetando la gramática que diseñaste
         String input = "program miPrimerPrograma {\n" +
                 "    var x;\n" +
-                "    x = 100;\n" +
+                "    x = 100.10;\n" +
                 "    println x;\n" +
                 "    if (false) {\n" +
-                "        println 10;\n" +
+                "        println 10.2;\n" +
                 "    } else {\n" +
-                "        println 0;\n" +
+                "        println .9;\n" +
+                "        println 9.;\n" +
                 "    }\n" +
                 "}";
 
