@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Constant implements ASTNode{
 
-    private Object value;
+    private final Object value;
 
     public Constant(Object value) {
 

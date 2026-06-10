@@ -4,8 +4,8 @@ import java.util.Map;
 
 public class Addition implements ASTNode{
 
-    private ASTNode operand1;
-    private ASTNode operand2;
+    private final ASTNode operand1;
+    private final ASTNode operand2;
 
 
     public Addition(ASTNode operand1, ASTNode operand2) {
