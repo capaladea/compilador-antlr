@@ -69,21 +69,21 @@ var_assign returns [ASTNode node]:
 
 // NIVEL LÓGICO OR (El tope de la gramática)
 expression returns [ASTNode node]:
-    a1=andExpr { $node = $a1.node; } ;
+    a1=andExpr { $node = $a1.node; } ;// borrar este punto y coma
     // (
      // OR a2=andExpr { $node = new Or($node, $a2.node); }
     // )*;
 
 // NIVEL LÓGICO AND
 andExpr returns [ASTNode node]:
-    c1=comparisonExpr { $node = $c1.node; } ;
+    c1=comparisonExpr { $node = $c1.node; } ;// borrar este punto y coma
     // (
      // AND c2=comparisonExpr { $node = new And($node, $c2.node); }
     // )*;
 
 // NIVEL RELACIONAL / COMPARADORES (==, >, <, >=, <=)
 comparisonExpr returns [ASTNode node]:
-    e1=arithmeticExpr { $node = $e1.node; } ;
+    e1=arithmeticExpr { $node = $e1.node; } ; // borrar este punto y coma
     // (
         // EQ  e2=arithmeticExpr { $node = new Equals($node, $e2.node); }
         // | GT  e2=arithmeticExpr { $node = new GreaterThan($node, $e2.node); }
