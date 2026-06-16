@@ -15,16 +15,20 @@ public class Addition implements ASTNode{
 
     @Override
     public Object execute(Map<String, Object> symbolTable) {
-        // Obtenemos los valores reales, int o float indistintamente
         Object value01 = operand1.execute(symbolTable);
         Object value02 = operand2.execute(symbolTable);
 
-        // si alguno es float, el resultado de la suma debe ser float
+        // Si cualquiera es String, los concatena y retorna
+        if (value01 instanceof String || value02 instanceof String) {
+            return String.valueOf(value01) + String.valueOf(value02);
+        }
+
+        // Si alguno es float, el resultado de la suma debe ser float
         if (value01 instanceof Float || value02 instanceof Float) {
             return ((Number) value01).floatValue() + ((Number) value02).floatValue();
         }
 
-        // Si ninguno es float, asumimos que son enteros y devolvemos un Integer
+        // Si ninguno es float ni String, asumimos que son enteros
         return ((Number) value01).intValue() + ((Number) value02).intValue();
     }
 }

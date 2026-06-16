@@ -5,6 +5,6 @@ program prueba01 {
     var x;
     x = 10;
 
-    println (x);
+    println ("variable " + x + " es un numero");
 
 }
