@@ -2,11 +2,11 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 import  java.io.IOException;
 
-import ast.*; // Importamos tus nodos también acá
+import ast.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        // Tu código de prueba respetando la gramática que diseñaste
+        // La ruta donde se encuentra el archivo de prueba basico
         String input = "src/test/prueba01.prg";
 
         // Leer la ruta del archivo fuente e iniciar el Lexer
