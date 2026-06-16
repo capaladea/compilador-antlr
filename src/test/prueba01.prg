@@ -1,6 +1,6 @@
 program prueba01 {
 
-    println ("testeando...");
+    println ("testeando la sobrecarga del operador +");
 
     var x;
     x = 10;
