@@ -7,20 +7,10 @@ import ast.*; // Importamos tus nodos también acá
 public class Main {
     public static void main(String[] args) throws Exception {
         // Tu código de prueba respetando la gramática que diseñaste
-        String input = "program miPrimerPrograma {\n" +
-                "    var x;\n" +
-                "    x = 100.10;\n" +
-                "    println x;\n" +
-                "    if (false) {\n" +
-                "        println 10.2;\n" +
-                "    } else {\n" +
-                "        println .9;\n" +
-                "        println 9.;\n" +
-                "    }\n" +
-                "}";
+        String input = "src/test/prueba01.prg";
 
         // 1. Leer el código fuente e iniciar el Lexer
-        GramaticaLexer lexer = new GramaticaLexer(CharStreams.fromString(input));
+        GramaticaLexer lexer = new GramaticaLexer(CharStreams.fromFileName(input));
 
         // 2. Generar el flujo de tokens
         CommonTokenStream tokens = new CommonTokenStream(lexer);
