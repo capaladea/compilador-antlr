@@ -29,7 +29,7 @@ public class Main {
             // intercepta cualquier RuntimeException lanzada desde los execute() en las clases
             System.err.println("*** ¡Error en tiempo de ejecución! ***");
             System.err.println("Detalle: " + e.getMessage());
-            System.err.println("---------------------------------");
+            System.err.println("**************************************");
         }
         System.out.println("\n---------------Fin-----------------");
     }
