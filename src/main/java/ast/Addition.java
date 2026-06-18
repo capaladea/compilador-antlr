@@ -15,12 +15,27 @@ public class Addition implements ASTNode{
 
     @Override
     public Object execute(Map<String, Object> symbolTable) {
+        // Validar que los operandos no sean nulos en sí mismos (defensa previa)
+        if (operand1 == null || operand2 == null) {
+            throw new RuntimeException("Error de ejecución: Los operandos no pueden ser nulos.");
+        }
+
         Object value01 = operand1.execute(symbolTable);
         Object value02 = operand2.execute(symbolTable);
 
-        // Si cualquiera es String, los concatena y retorna
+        // Controlar valores nulos resultantes de la ejecución
+        if (value01 == null || value02 == null) {
+            throw new RuntimeException("Error de ejecución: Intento de operar con un valor nulo (Variable no definida).");
+        }
+
+        // Si cualquiera es String, los concatena y retorna (Comportamiento válido)
         if (value01 instanceof String || value02 instanceof String) {
             return String.valueOf(value01) + String.valueOf(value02);
+        }
+
+        // Validar que AMBOS operandos sean numéricos antes de continuar
+        if (!(value01 instanceof Number) || !(value02 instanceof Number)) {
+            throw new RuntimeException("Error de tipos: No se puede aplicar el operador '+' a los tipos dados");
         }
 
         // Si alguno es float, el resultado de la suma debe ser float

@@ -2,7 +2,7 @@ program prueba01 {
 
 
     var x;
-    x = 10.0;
+    x = 10;
 
     x = x + y;
 }
