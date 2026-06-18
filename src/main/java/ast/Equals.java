@@ -14,18 +14,21 @@ public class Equals implements ASTNode{
 
     @Override
     public Object execute(Map<String, Object> symbolTable) {
-        // Resolvemos el valor del lado izquierdo (puede ser una variable, un número, etc.)
+        // Resolvemos el valor del lado izquierdo y derecho
         Object valorIzquierdo = this.operand1.execute(symbolTable);
-
-        // Resolvemos el valor del lado derecho
         Object valorDerecho = this.operand2.execute(symbolTable);
 
-        // Manejo de nulos para evitar un NullPointerException
+        // Manejo de valores nulos
         if (valorIzquierdo == null && valorDerecho == null) {
             return true; // null == null es verdadero
         }
         if (valorIzquierdo == null || valorDerecho == null) {
             return false; // uno es nulo y el otro no, son distintos
+        }
+
+        // Validar que no se comparen tipos diferentes (por ejemplo String == Integer)
+        if (!valorIzquierdo.getClass().equals(valorDerecho.getClass())) {
+            throw new RuntimeException("Error de tipos: No se pueden comparar valores distinto tipo");
         }
 
         // Comparamos los valores reales y retornamos el booleano
