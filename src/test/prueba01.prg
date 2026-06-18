@@ -1,10 +1,8 @@
 program prueba01 {
 
-    println ("testeando la sobrecarga del operador +");
 
     var x;
-    x = 10;
+    x = 10.0;
 
-    println ("variable " + x + " es un numero");
-
+    x = x + y;
 }
