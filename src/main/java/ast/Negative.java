@@ -12,21 +12,24 @@ public class Negative implements ASTNode{
 
     @Override
     public Object execute(Map<String, Object> symbolTable) {
-        // Evaluamos el nodo hijo para obtener el número
+        // Obtenemos el valor (se espera un número)
         Object valor = operand.execute(symbolTable);
 
-        // Si es un entero, lo pasamos a negativo
+        // Si el valor no es de tipo numerico levanta una excepcion
+        if (!(valor instanceof Number)) {
+            throw new RuntimeException("Error semántico: No se puede aplicar el operador '-' a un tipo no numérico.");
+        }
+
+        // Si es un entero, lo pasamos a entero negativo
         if (valor instanceof Integer) {
             return -(Integer) valor;
         }
 
-        // 3. Si es un float, lo pasamos a negativo
+        // Si es un float, lo pasamos a float negativo
         if (valor instanceof Float) {
             return -(Float) valor;
         }
 
-        // 4. Si intentan meter un String o un Booleano adentro del menos...
-        //throw new RuntimeException("Error semántico: No se puede aplicar el operador '-' a un tipo no numérico.");
         return null;
     }
 }
